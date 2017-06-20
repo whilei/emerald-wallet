@@ -22,7 +22,7 @@ const config = {
         ], {copyUnmodified: true})
     ],
     output: {
-        path: path.join(__dirname, "./build/"),
+        path: path.join(__dirname, "./app/"),
         filename: '[name].js'
     },
     resolve: {
@@ -60,7 +60,7 @@ const config = {
                         }
                     ],
                 }),
-                
+
             },
             {
                 test: /\.less$/,
