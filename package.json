@@ -9,7 +9,7 @@
   ],
   "version": "0.1.0",
   "description": "Emerald - Ethereum Classic Wallet",
-  "main": "./app/emerald.js",
+  "main": "./electron/compiled-main.js",
   "moduleRoots": [
     "src/lib"
   ],
