@@ -1,7 +1,9 @@
+// import {BrowserWindow, Menu, shell } from 'electron';
+// import winLinuxMenu from './menus/win-linux';
 const path = require('path');
 const url = require('url');
-import {BrowserWindow, Menu, shell } from 'electron';
-import winLinuxMenu from './menus/win-linux';
+const electron = require('electron');
+const winLinuxMenu = require('./menus/win-linux');
 // import icon from './icons/background.png';
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -11,7 +13,7 @@ let menu;
 
 export function createWindow (openDevTools) {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1060, height: 600});
+  mainWindow = new electron.BrowserWindow({width: 1060, height: 600});
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -34,13 +36,13 @@ export function createWindow (openDevTools) {
 
   // Open the DevTools.
   if (openDevTools) {
-    mainWindow.webContents.openDevTools();
-    require('devtron').install();
+      mainWindow.webContents.openDevTools();
+      require('devtron').install();
   }
     // https://stackoverflow.com/questions/32402327/how-can-i-force-external-links-from-browser-window-to-open-in-a-default-browser
     mainWindow.webContents.on('will-navigate', function(e, url) {
-      e.preventDefault();
-      shell.openExternal(url);
+        e.preventDefault();
+        electron.shell.openExternal(url);
     });
 
   // Emitted when the window is closed.
@@ -52,7 +54,7 @@ export function createWindow (openDevTools) {
   });
 
   // Menu (only win and linux for now)
-  menu = Menu.buildFromTemplate(winLinuxMenu(mainWindow));
+  menu = electron.Menu.buildFromTemplate(winLinuxMenu(mainWindow));
   mainWindow.setMenu(menu);
 
   return mainWindow.webContents;

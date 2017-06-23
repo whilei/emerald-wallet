@@ -1,10 +1,17 @@
-import {app, BrowserWindow, ipcMain } from 'electron';
-import { createWindow, mainWindow } from './mainWindow';
-import { RpcApi } from '../src/lib/rpcApi';
-import { launchGeth, launchEmerald } from './launcher';
-import { Services } from './services';
-import log from 'loglevel';
-import Store from 'electron-store';
+// import {app, BrowserWindow, ipcMain } from 'electron';
+// import { createWindow, mainWindow } from './mainWindow';
+// import { RpcApi } from '../src/lib/rpcApi';
+// import { launchGeth, launchEmerald } from './launcher';
+// import { Services } from './services';
+// import log from 'loglevel';
+// import Store from 'electron-store';
+const electron = require('electron');
+const mainWindow = require('./mainWindow');
+// const RpcApi = require('../src/lib/rpcApi');
+// const launcher = require('./launcher');
+const Services = require('./services');
+const log = require('loglevel');
+const Store = require('electron-store');
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
@@ -42,22 +49,22 @@ global.launcherConfig = {
 };
 
 console.log('firstRun', store.get('firstRun'));
-console.log('userData: ', app.getPath('userData'));
+console.log('userData: ', electron.app.getPath('userData'));
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', () => {
+electron.app.on('ready', () => {
     log.info("Starting Emerald...");
-    const webContents = createWindow(isDev);
+    const webContents = mainWindow.createWindow(isDev);
 
     const services = new Services(webContents);
     services.start().catch((err) => log.error("Failed to start Services", err));
-    ipcMain.on('get-status', (event) => {
+    electron.ipcMain.on('get-status', (event) => {
         event.returnValue = "ok";
         services.notifyStatus();
     });
-    ipcMain.on('switch-chain', (event, network, id) => {
+    electron.ipcMain.on('switch-chain', (event, network, id) => {
         log.info(`Switch chain to ${network} as ${id}`);
         let chain = network.toLowerCase();
         if (['mainnet', 'testnet', 'morden'].indexOf(chain) < 0) {
@@ -78,7 +85,7 @@ app.on('ready', () => {
             .catch((err) => log.error('Failed to Switch Chain', err));
     });
 
-    app.on('quit', () => {
+    electron.app.on('quit', () => {
         return services.shutdown()
             .then(() => log.info("All services are stopped"))
             .catch((e) => log.error("Failed to stop services", e));
@@ -86,18 +93,18 @@ app.on('ready', () => {
 });
 
 // Quit when all windows are closed.
-app.on('window-all-closed', () => {
+electron.app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
-    app.quit()
+    electron.app.quit()
   }
 });
 
-app.on('activate', () => {
+electron.app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
-    createWindow(isDev)
+    mainWindow.createWindow(isDev)
   }
 });
