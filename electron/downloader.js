@@ -7,7 +7,8 @@ import log from 'loglevel';
 // extract-zip depends on concat-stream, debug, mkdirp, yauzl
 // yauzl depends on fd-slicer, buffer-crc32
 // this should avoid the fs dependency issue
-import extract from 'extract-zip';
+// import extract from 'extract-zip';
+import DecompressZip from 'decompress-zip';
 import { Verify } from './verify';
 
 const DefaultGeth = {
@@ -227,31 +228,27 @@ export class Downloader {
         return new Promise((resolve, reject) => {
             this.notify.info('Unpacking Geth');
             const target = path.join(this.basedir, this.name);
-            extract(zip, {
-                dir: this.basedir,
-                onEntry: (entry, zipfile) => {
-                    if (!/\/$/.test(entry.fileName) && entry.fileName === this.name) {
-                        zipfile.openReadStream(entry, (err, rs) => {
-                            if (err) throw err;
-                            rs.on('end', () => {
-                                fs.chmod(target, 0o755, (moderr) => {
-                                    if (err) {
-                                        log.error('Failed to set executable flag', moderr);
-                                    }
-                                });
-                            });
-                            rs.pipe(fs.createWriteStream(target))
-                                .on('close', () => {
-                                    resolve(true);
-                                });
-                        });
+            const unzipper = new DecompressZip(zip);
+            unzipper.on('error', (err) => {
+                log.error('Failed to extract zip', err);
+                reject(err);
+            });
+            unzipper.on('extract', (logg) => {
+                log.debug('Finished extracting', logg);
+                fs.chmod(target, 0o755, (moderr) => {
+                    if (moderr) {
+                        log.error('Failed to set executable flag', moderr);
+                        reject(moderr);
                     }
+                    resolve(true);
+                });
+            });
+            unzipper.extract({
+                path: this.basedir,
+                filter: (file) => {
+                    // https://github.com/bower/decompress-zip/blob/master/lib/file-details.js#L10
+                    return file.type !== 'Directory' && file.filename === this.name;
                 },
-            }, (err) => {
-                if (err) {
-                    log.error('Failed to extract zip', err);
-                    reject(err);
-                }
             });
         });
     }
