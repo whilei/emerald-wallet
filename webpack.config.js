@@ -10,7 +10,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 var forElectron = process.argv.indexOf('--for-electron') >= 0;
 
 const config = {
-    target: forElectron ? 'electron-main' : 'web',
+    target: forElectron ? 'electron-main' : 'electron-renderer',// 'web',
     entry: {
         index: path.join(srcDir, 'index.js'),
         tests: path.join(srcDir, 'tests.js'),
