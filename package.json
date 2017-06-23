@@ -14,18 +14,42 @@
     "src/lib"
   ],
   "scripts": {
+<<<<<<< HEAD
     "build": "node build --no-watch",
     "build:watch": "node build",
     "build:electron": "node build --for-electron",
     "start:electron": "npm run build:electron & NODE_ENV=development ./node_modules/.bin/electron -r babel-register -r babel-polyfill .",
     "start": "node ./node_modules/.bin/webpack-dev-server --content-base app/ --inline --port 8000",
+=======
+    "help": "say 'you wish, sucka!'",
+    "wtf": "say 'the web commands dont work right, maybe try breaking them down into their node commands and running those?'",
+    "shipit": "say 'try npm run build:all:nowatch, then npm run dist (or dist:all if you are feeling ambitious). note that you can change the compression rate in the build config down below'",
+
+    "build:electron": "node build-electron",
+    "build:electron:nowatch": "node build-electron --no-watch",
+
+    "build:web": "node build-web --for-electron",
+    "build:web:nowatch": "node build-web --no-watch --for-electron",
+
+    "build:all": "node build-electron && node build-web --for-electron",
+    "build:all:nowatch": "node build-electron --no-watch && node build-web --no-watch --for-electron",
+
+    "start:help": "say 'the semi-colons can maybe be replaced by ampersands or double-ampersands. and make sure you have emerald in the appdata/bin/ otherwise youll see object undefined errors in the console'",
+    "start:web": "node build-electron --no-watch ; node build-web --no-watch ; node ./node_modules/.bin/webpack-dev-server --content-base ./app --inline --port 8000",
+    "start:electron:note": "say 'notice that this uses main.js instead of webpack-main.js'",
+    "start:electron": "node build-electron --no-watch ; node build-web --for-electron --no-watch ; NODE_ENV=development ./node_modules/.bin/electron -r babel-register -r babel-polyfill electron/main.js",
+
+>>>>>>> problem: npm run scripts failing and or outdated
     "test:watch": "node ./node_modules/karma/bin/karma start",
     "test": "npm run build && node ./node_modules/karma/bin/karma start --single-run",
+
     "lint": "./node_modules/eslint/bin/eslint.js ./src/",
-    "package": "node build --no-watch --for-electron && NODE_ENV=production node electron/package.js",
-    "package:all": "npm run package -- --all",
-    "postinstall": "electron-builder install-app-deps",
-    "dist": "build -m"
+
+    "dist": "build",
+    "dist:all": "build -mlw --x64 --ia32",
+
+    "postinstall:why": "say 'because of reasons, it might not do anything important. #twopackagejson ?'",
+    "postinstall": "electron-builder install-app-deps"
   },
   "keywords": [
     "react",
