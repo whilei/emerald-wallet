@@ -33,7 +33,7 @@ function pack(platform, arch) {
     var opts = Object.assign({}, packOpts, {
         platform,
         arch,
-        icon: './icons/icon',
+        icon: './build/icon',
         out: 'release',
     });
 
