@@ -13,7 +13,6 @@ const config = {
     target: forElectron ? 'electron-main' : 'web',
     entry: {
         index: path.join(srcDir, 'index.js'),
-        emerald: path.join(srcDir, 'main.js'),
         tests: path.join(srcDir, 'tests.js'),
     },
     plugins: [
