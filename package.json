@@ -16,14 +16,15 @@
   "scripts": {
     "build": "node build --no-watch",
     "build:watch": "node build",
-    "start:electron": "npm run build && NODE_ENV=development ./node_modules/.bin/electron -r babel-register -r babel-polyfill ./electron/main",
-    "start": "node ./node_modules/.bin/webpack-dev-server --content-base app/ --inline  --port 8000",
+    "build:electron": "node build --for-electron",
+    "start:electron": "npm run build:electron & NODE_ENV=development ./node_modules/.bin/electron -r babel-register -r babel-polyfill .",
+    "start": "node ./node_modules/.bin/webpack-dev-server --content-base app/ --inline --port 8000",
     "test:watch": "node ./node_modules/karma/bin/karma start",
     "test": "npm run build && node ./node_modules/karma/bin/karma start --single-run",
     "lint": "./node_modules/eslint/bin/eslint.js ./src/",
-    "package": "npm run build && NODE_ENV=production node electron/package.js",
+    "package": "node build --no-watch --for-electron && NODE_ENV=production node electron/package.js",
     "package:all": "npm run package -- --all",
-    "postinstall": "install-app-deps",
+    "postinstall": "electron-builder install-app-deps",
     "dist": "build -m"
   },
   "keywords": [
@@ -52,6 +53,7 @@
     "eslint-plugin-react": "^6.10.3",
     "ethereumjs-abi": "0.6.4",
     "ethereumjs-util": "5.1.1",
+    "extract-zip": "^1.6.5",
     "fbjs": "0.8.9",
     "flexboxgrid": "^6.3.0",
     "follow-redirects": "^1.2.3",
@@ -87,8 +89,7 @@
     "redux-logger": "2.8.1",
     "redux-thunk": "2.2.0",
     "roboto-fontface": "0.7.0",
-    "store": "^2.0.4",
-    "unzip2": "^0.2.5"
+    "store": "^2.0.4"
   },
   "devDependencies": {
     "@elastic/webpack-directory-name-as-main": "2.0.2",
