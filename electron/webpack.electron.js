@@ -23,8 +23,8 @@ const config = {
     },
 
     output: {
-        path: path.join(__dirname, '../app'),
-        filename: 'main.js'
+        path: path.join(__dirname),
+        filename: 'compiled-main.js'
     },
 
     plugins: [
