@@ -2,6 +2,7 @@ var fs = require("fs");
 var path = require('path');
 var webpack = require('webpack');
 var srcDir = path.join(__dirname, 'src');
+var electronDir = path.join(__dirname, 'electron');
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -22,7 +23,7 @@ const config = {
         ], {copyUnmodified: true})
     ],
     output: {
-        path: path.join(__dirname, "./app/"),
+        path: path.join(__dirname, 'app'),
         filename: '[name].js'
     },
     resolve: {
