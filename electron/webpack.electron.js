@@ -6,7 +6,15 @@ const config = {
     entry: {
         main: path.join(__dirname, 'main.js'),
     },
-
+    resolve: {
+        modules: [
+            path.resolve(path.join(__dirname, 'electron')),
+            path.join(__dirname, 'node_modules')
+        ],
+        alias: {
+            'babel-polyfill': path.join(__dirname, 'babel-polyfill/dist/polyfill.js')
+        }
+    },
     module: {
         rules: [
             {
