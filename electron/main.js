@@ -1,17 +1,9 @@
-// import {app, BrowserWindow, ipcMain } from 'electron';
-// import { createWindow, mainWindow } from './mainWindow';
-// import { RpcApi } from '../src/lib/rpcApi';
-// import { launchGeth, launchEmerald } from './launcher';
-// import { Services } from './services';
-// import log from 'loglevel';
-// import Store from 'electron-store';
-const electron = require('electron');
-const mainWindow = require('./mainWindow');
-// const RpcApi = require('../src/lib/rpcApi');
-// const launcher = require('./launcher');
-const Services = require('./services');
-const log = require('loglevel');
-const Store = require('electron-store');
+import {app, ipcMain } from 'electron';
+import log from 'loglevel';
+import Store from 'electron-store';
+import { createWindow, mainWindow } from './mainWindow';
+import { RpcApi } from '../src/lib/rpcApi';
+import { Services } from './services';
 
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
@@ -23,13 +15,13 @@ const settings = new Store({
     defaults: {
         // RPC configuration
         chain: {
-            //type: 'remote',
-            //url: 'https://api.gastracker.io',
-            //chain: 'mainnet'
+            // type: 'remote',
+            // url: 'https://api.gastracker.io',
+            // chain: 'mainnet'
             type: 'local',
-            chain: 'morden'
-        }
-    }
+            chain: 'morden',
+        },
+    },
 });
 
 // This instance will be called from renderer process through remote.getGlobal("rpc")
@@ -54,19 +46,19 @@ console.log('userData: ', electron.app.getPath('userData'));
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-electron.app.on('ready', () => {
-    log.info("Starting Emerald...");
-    const webContents = mainWindow.createWindow(isDev);
+app.on('ready', () => {
+    log.info('Starting Emerald...');
+    const webContents = createWindow(isDev);
 
     const services = new Services(webContents);
-    services.start().catch((err) => log.error("Failed to start Services", err));
-    electron.ipcMain.on('get-status', (event) => {
-        event.returnValue = "ok";
+    services.start().catch((err) => log.error('Failed to start Services', err));
+    ipcMain.on('get-status', (event) => {
+        event.returnValue = 'ok';
         services.notifyStatus();
     });
     electron.ipcMain.on('switch-chain', (event, network, id) => {
         log.info(`Switch chain to ${network} as ${id}`);
-        let chain = network.toLowerCase();
+        const chain = network.toLowerCase();
         if (['mainnet', 'testnet', 'morden'].indexOf(chain) < 0) {
             log.error(`Unknown chain: ${chain}`);
             event.returnValue = "fail";
@@ -78,7 +70,7 @@ electron.app.on('ready', () => {
             .then(new Promise((resolve) => {
                 services.setup.chain = chain;
                 services.setup.chainId = id;
-                resolve('ok')
+                resolve('ok');
             }))
             .then(services.start.bind(services))
             .then(services.notifyStatus.bind(services))
@@ -104,7 +96,7 @@ electron.app.on('window-all-closed', () => {
 electron.app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    mainWindow.createWindow(isDev)
-  }
+    if (mainWindow === null) {
+        createWindow(isDev);
+    }
 });
