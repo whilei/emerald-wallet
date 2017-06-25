@@ -1,10 +1,7 @@
-// import {BrowserWindow, Menu, shell } from 'electron';
-// import winLinuxMenu from './menus/win-linux';
+import {BrowserWindow, Menu, shell } from 'electron';
+import winLinuxMenu from './menus/win-linux';
 const path = require('path');
 const url = require('url');
-const electron = require('electron');
-const winLinuxMenu = require('./menus/win-linux');
-// import icon from './icons/background.png';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
