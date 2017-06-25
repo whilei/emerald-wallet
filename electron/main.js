@@ -41,7 +41,7 @@ global.launcherConfig = {
 };
 
 console.log('firstRun', store.get('firstRun'));
-console.log('userData: ', electron.app.getPath('userData'));
+console.log('userData: ', app.getPath('userData'));
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -56,7 +56,7 @@ app.on('ready', () => {
         event.returnValue = 'ok';
         services.notifyStatus();
     });
-    electron.ipcMain.on('switch-chain', (event, network, id) => {
+    ipcMain.on('switch-chain', (event, network, id) => {
         log.info(`Switch chain to ${network} as ${id}`);
         const chain = network.toLowerCase();
         if (['mainnet', 'testnet', 'morden'].indexOf(chain) < 0) {
@@ -77,7 +77,7 @@ app.on('ready', () => {
             .catch((err) => log.error('Failed to Switch Chain', err));
     });
 
-    electron.app.on('quit', () => {
+    app.on('quit', () => {
         return services.shutdown()
             .then(() => log.info("All services are stopped"))
             .catch((e) => log.error("Failed to stop services", e));
@@ -85,15 +85,15 @@ app.on('ready', () => {
 });
 
 // Quit when all windows are closed.
-electron.app.on('window-all-closed', () => {
+app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
-    electron.app.quit()
+    app.quit()
   }
 });
 
-electron.app.on('activate', () => {
+app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
     if (mainWindow === null) {
