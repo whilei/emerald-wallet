@@ -4,7 +4,7 @@ var webpack = require('webpack');
 const config = {
     target: 'electron-main',
     entry: {
-        main: path.join(__dirname, 'main.js'),
+        main: path.join(__dirname, 'electron', 'main.js'),
     },
     resolve: {
         modules: [
@@ -31,8 +31,8 @@ const config = {
     },
 
     output: {
-        path: path.join(__dirname),
-        filename: 'compiled-main.js'
+        path: path.join(__dirname, 'electron'),
+        filename: 'webpack-main.js'
     },
 
     plugins: [
