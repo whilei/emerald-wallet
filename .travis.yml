@@ -13,7 +13,7 @@ script:
   - if [[ $(license-checker --production --exclude '(GPL-2.0 OR MIT)' | grep GPL) ]]; then license-checker --production | grep -C 1 GPL && false; fi
   - npm run build
   - if [[ $FULL_CHECK == "true" ]]; then npm run lint --silent; fi
-  - build -ml --x64 --ia32 --publish
+  - build -ml --x64 --ia32 --publish="onTagOrDraft"
 env:
   - CXX=g++-4.8
 addons:
