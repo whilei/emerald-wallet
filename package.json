@@ -17,34 +17,24 @@
     "help": "say 'you wish, sucka!'",
     "wtf": "say 'in order to build and run for developement (ie start:...), the MAIN field (above) should be ./electron/main.js; for distribution it should be ./electron/webpack-main.js'",
     "shipit": "say 'try npm run build:all:nowatch, then npm run dist (or dist:all if you are feeling ambitious). note that you can change the compression rate in the build config down below. make sure you have MAIN set to electron/webpack-main.js'",
-
     "build": "node build-web --no-watch && node build-electron --no-watch",
-
     "build:electron": "node build-electron",
     "build:electron:nowatch": "node build-electron --no-watch",
-
     "build:web": "node build-web --for-electron",
     "build:web:nowatch": "node build-web --no-watch --for-electron",
-
     "build:all": "node build-electron && node build-web --for-electron",
     "build:all:nowatch": "node build-electron --no-watch && node build-web --no-watch --for-electron",
-
     "start:help": "say 'the semi-colons can maybe be replaced by ampersands or double-ampersands. and make sure you have emerald in the appdata/bin/ otherwise youll see object undefined errors in the console'",
     "start:web:wtf": "say 'running development on web may not work'",
     "start:web": "node build-web --for-electron & node ./node_modules/.bin/webpack-dev-server --content-base ./app --inline --port 8000",
-
     "start:electron:wtf": "say 'NOTE (again) that this needs MAIN field to be main.js instead of webpack-main.js. And also note that with all of the commands running concurrently, you may have to reload the electron window once all the builders get up and running.'",
     "start:electron": "node build-electron & node build-web --for-electron & NODE_ENV=development ./node_modules/.bin/electron -r babel-register -r babel-polyfill .",
-
     "test:watch": "node ./node_modules/karma/bin/karma start",
     "test": "npm run build && node ./node_modules/karma/bin/karma start --single-run",
-
     "lint": "./node_modules/eslint/bin/eslint.js ./src/",
-
     "dist:wtf": "say 'did you remember to set MAIN to electron/webpack-main.js?'",
     "dist": "build",
     "dist:all": "build -mlw --x64 --ia32",
-
     "postinstall:wtf": "say 'because of reasons, it might not do anything important. #twopackagejson ?'",
     "postinstall": "electron-builder install-app-deps"
   },
@@ -72,7 +62,7 @@
     "classnames": "^2.1.2",
     "copy-to-clipboard": "^3.0.6",
     "decompress-zip": "^0.3.0",
-    "electron-prebuilt-compile": "1.6.11",
+    "electron-store": "^1.1.0",
     "eslint-plugin-react": "^6.10.3",
     "ethereumjs-abi": "0.6.4",
     "ethereumjs-util": "5.1.1",
@@ -125,6 +115,7 @@
     "babel-runtime": "^6.23.0",
     "copy-webpack-plugin": "1.1.1",
     "css-loader": "0.28.0",
+    "devtron": "^1.4.0",
     "electron": "^1.6.11",
     "electron-builder": "^19.7.1",
     "eslint": "^3.19.0",
@@ -158,6 +149,9 @@
     "appId": "com.ethereumclassic.emeraldwallet",
     "mac": {
       "category": "public.app-category.developer-tools"
+    },
+    "linux": {
+        "icon": "./build/64x64.png"
     },
     "dmg": {},
     "win": {
