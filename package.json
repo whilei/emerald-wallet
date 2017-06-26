@@ -29,8 +29,8 @@
     "test:watch": "node ./node_modules/karma/bin/karma start",
     "test": "npm run build && node ./node_modules/karma/bin/karma start --single-run",
     "lint": "./node_modules/eslint/bin/eslint.js ./src/",
-    "dist": "build",
-    "dist:all": "build -mlw --x64 --ia32",
+    "dist": "npm run build:all:nowatch && electron-builder",
+    "dist:all": "npm run build:all:nowatch && electron-builder -mlw --x64 --ia32",
     "postinstall": "electron-builder install-app-deps"
   },
   "keywords": [
@@ -144,9 +144,6 @@
     "appId": "com.ethereumclassic.emeraldwallet",
     "mac": {
       "category": "public.app-category.developer-tools"
-    },
-    "linux": {
-        "icon": "./build/64x64.png"
     },
     "dmg": {},
     "win": {
