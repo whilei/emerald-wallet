@@ -9,7 +9,7 @@
   ],
   "version": "0.1.0",
   "description": "Emerald - Ethereum Classic Wallet",
-  "main": "./electron/main.js",
+  "main": "./electron/webpack-main.js",
   "moduleRoots": [
     "src/lib"
   ],
@@ -17,6 +17,8 @@
     "help": "say 'you wish, sucka!'",
     "wtf": "say 'in order to build and run for developement (ie start:...), the MAIN field (above) should be ./electron/main.js; for distribution it should be ./electron/webpack-main.js'",
     "shipit": "say 'try npm run build:all:nowatch, then npm run dist (or dist:all if you are feeling ambitious). note that you can change the compression rate in the build config down below. make sure you have MAIN set to electron/webpack-main.js'",
+
+    "build": "node build-web --no-watch && node build-electron --no-watch",
 
     "build:electron": "node build-electron",
     "build:electron:nowatch": "node build-electron --no-watch",
