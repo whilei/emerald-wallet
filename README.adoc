@@ -102,6 +102,3 @@ $ npm run dist
 
 Apache 2.0
 
-----
-Just getting Travis to run again.
-asdf
