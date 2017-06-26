@@ -6,7 +6,6 @@ var watch = process.argv.indexOf('--no-watch') < 0;
 
 var config = require('./webpack.config.js');
 
-// var electronCompiler = webpack(require('./electron/webpack.electron'));
 var compiler = webpack(config);
 var statOpts = {
     hash: true,
@@ -14,18 +13,14 @@ var statOpts = {
     assets: true,
     chunks: false,
     children: false,
-    version: false
+    version: false,
 };
 
 if (watch) {
     compiler.watch({}, function (err, stats) {
-            console.log(stats.toString(statOpts));
-        }
-    );
+        console.log(stats.toString(statOpts));
+    });
 } else {
-    // electronCompiler.run(function (err, stats) {
-    //     console.log(stats.toString(statOpts));
-    // });
     compiler.run(function (err, stats) {
         console.log(stats.toString(statOpts));
     });
