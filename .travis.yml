@@ -5,7 +5,9 @@ os:
   - linux
 env:
   global:
-    - secure: "EuQQSD9GKeAUtFhNGe/m23IYXKVTr8CPl9f7O/PsVDkDMsO6E15o16hn9rn/kIeMEE9+UsCGapFJYlTg+jvZncr8kNTWkKTxsaYS9ejc9br4ePzJmg4LXrelIsunkUGTRBG7wd5I7g+Tx24k02EItftYhzhw3GV3sDvw7VISts3CaCFrGMwOlI4vuhFxJ7N9XRg3HFPY4O9847R/nfhbN9eMqI1kg9xA2INoYaeqxxjWjCX/YlRNpUjkpauv3Owc9Z+B5DYSAlywTModqiUdkiAGmFptydo8gkCqll+iuFfZAV7KT338gVVP3XLNVP1Bq7ZrcqPimhepStX1smEo7vtPzUSb4Wiy03hXlkhDEhLzOf629bGrwpMDy49oAYN0+7o2JBmtV91VEOOs2+ziDTprdv3l4VyX9em+/tf3KxZqTNuiq2Rbl2607zQ3MVYzvHqedoAJiimzUAqMEC4JZmAhlS4dnLFpG2aZv0vuNS9hzVcmSrwcUUwQXWDuRVJkI2mpvL/avbSSH2+kww+I2Uz6VPIOnWoMlY+PJ1i7nMGLpbRY9D4QY1JGJh897hSTHw3F21/4h7kSrkPG0rIdCTCiJ3sXBfUdeSdBi0E+ca9vUWZBbsfH0NdRcw4n0cYiG0NaV1zNA6EIRi8L1GHLtPtYbu/Gm2HM63d7agIQvR0="
+    # - secure: "EuQQSD9GKeAUtFhNGe/m23IYXKVTr8CPl9f7O/PsVDkDMsO6E15o16hn9rn/kIeMEE9+UsCGapFJYlTg+jvZncr8kNTWkKTxsaYS9ejc9br4ePzJmg4LXrelIsunkUGTRBG7wd5I7g+Tx24k02EItftYhzhw3GV3sDvw7VISts3CaCFrGMwOlI4vuhFxJ7N9XRg3HFPY4O9847R/nfhbN9eMqI1kg9xA2INoYaeqxxjWjCX/YlRNpUjkpauv3Owc9Z+B5DYSAlywTModqiUdkiAGmFptydo8gkCqll+iuFfZAV7KT338gVVP3XLNVP1Bq7ZrcqPimhepStX1smEo7vtPzUSb4Wiy03hXlkhDEhLzOf629bGrwpMDy49oAYN0+7o2JBmtV91VEOOs2+ziDTprdv3l4VyX9em+/tf3KxZqTNuiq2Rbl2607zQ3MVYzvHqedoAJiimzUAqMEC4JZmAhlS4dnLFpG2aZv0vuNS9hzVcmSrwcUUwQXWDuRVJkI2mpvL/avbSSH2+kww+I2Uz6VPIOnWoMlY+PJ1i7nMGLpbRY9D4QY1JGJh897hSTHw3F21/4h7kSrkPG0rIdCTCiJ3sXBfUdeSdBi0E+ca9vUWZBbsfH0NdRcw4n0cYiG0NaV1zNA6EIRi8L1GHLtPtYbu/Gm2HM63d7agIQvR0="
+    - secure: "kd0SlLSMfdh6iA5q/o1TOwcSLkeDvV35/pcNysRQoMPIGAkfEGMhJ5d2nqWeYveQYOsvte2fpJQ3MuEpcIdUgxILZa6y7SCik117ic5gdFEDTKMK8VGetOp0zj5GTxeZ1DA85MD/le8ecBex+vVqLlBSDDPp0OWwXvXOpccWDPHOemgtS3uHjOnXQG9uRFw88q3ljmARZSzXq7/C7hM0KR8GDR2o+Ebe7h/Knf8GOCQLJ/hgjclPBEnWnyB8AvJZSPgeIMU5kFB1WMKunk51CDFmcDpFjN1e5J7F0rxvOlX9sMSJaYZPlobBHYladpwzMvscrlSpOQsW4zCWksEF0PCZRlaxHkIlqSulrPXdPd00GZechNCOqLaLMk24oaGWZTFV2/UHP6wrpZ1LTDkY8ee+4pYbTOEoPpGUmyZJ95uESMQxnWV4dpk9KsgCjCU3s0wl5K5RrqE6EXp6PTpCcHxWNZbLoDyYVk2uaMyaPr3Rx40+WkrKyAk+zRmPSiAsn7j1pfifHvQAiZJ4xxDaZ94TCqBR3ZG68fR1L1S1OZpMe0/Ih8zXwhCFFL/E4Tp/WkKAu8jSaqd1UN9KpEVZWiry+ipQVgYgv1TV8u2cm1P/dJUVVo4jAo6V+T73PKnPXLlSSvAigILE1DUSIqLJKRlagUd1NYb6oyh5D93GNZM="
+
   matrix:
     # This is obviously not ideal. I never was good with linear algebra. Damn matrixes.
     # -- It looks like this kind of dumb explictness is a known issue for travis, and
@@ -45,8 +47,8 @@ script:
   # Get janus.
   - curl -sL https://raw.githubusercontent.com/ethereumproject/janus/master/get.sh | bash
   - export PATH=$PATH:$PWD/janusbin
-  # We can use this env variable in electron-builder for naming, and avoid the `for ext in ...` bash loop below.
-  - export APP_VERSION_GIT_TAG="$(janus version -format v%M.%m.%P+%C-%S)"
+
+  - export APP_VERSION_GIT_TAG="$(janus version -format TAG_OR_NIGHTLY)"
   - echo "Building app version $APP_VERSION_GIT_TAG"
   - if [[ $(license-checker --production --exclude '(GPL-2.0 OR MIT)' | grep GPL) ]]; then license-checker --production | grep -C 1 GPL && false; fi
   - npm run build
