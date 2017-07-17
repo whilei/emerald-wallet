@@ -41,5 +41,5 @@ artifacts:
 deploy_script:
   - ps: >-
       If ($env:APPVEYOR_REPO_BRANCH -eq 'janusify-is') {
-          bash ./gcloud-deploy.sh
+          janus.exe deploy -to="fake-builds-etcdevteam-com/emerald-wallet/$(janus version -format='v%M.%m.x')/" -files="./dist/*.exe" -key="./gcloud-appveyor.json.enc"
       }
