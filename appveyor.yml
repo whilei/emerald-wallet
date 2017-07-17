@@ -7,6 +7,7 @@ environment:
   matrix:
     - nodejs_version: 6
 install:
+  - set PATH=C:\msys64\mingw64\bin;C:\msys64\usr\bin\;%PATH%
   # Set up version from git tags.
   # - git describe --tags --always > version.txt
   # - sed -E 's/v([[:digit:]]+\.[[:digit:]]+)\.[[:digit:]]-([[:digit:]]+)-g([a-f0-9]+)/v\1.\2+\3/' version.txt > version-app.txt
