@@ -40,6 +40,6 @@ artifacts:
     name: emerald-wallet
 deploy_script:
   - ps: >-
-      If ($env:APPVEYOR_REPO_BRANCH -eq 'master') {
+      If ($env:APPVEYOR_REPO_BRANCH -eq 'janusify-is') {
           bash ./gcloud-deploy.sh
       }
