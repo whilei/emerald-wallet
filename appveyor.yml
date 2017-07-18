@@ -25,6 +25,7 @@ install:
 
   # Set env var for electron builder version
   - ps: $env:APP_VERSION_GIT_TAG = "$(janus.exe version -format TAG_OR_NIGHTLY)"
+  - echo %APP_VERSION_GIT_TAG%
 
   # Set up build dependencies.
   - ps: Install-Product node $end:nodejs_version
@@ -40,8 +41,8 @@ test_script:
 artifacts:
   - path: './dist/*.exe'
     name: emerald-wallet
-# deploy_script:
-#   - ps: >-
-#       If ($env:APPVEYOR_REPO_BRANCH -eq 'janusify-is') {
-#           janus.exe deploy -to="fake-builds-etcdevteam-com/emerald-wallet/$(janus version -format='v%M.%m.x')/" -files="./dist/*.exe" -key="./isaac-test-gcp-servie-key.enc.json"
-#       }
+deploy_script:
+  - ps: >-
+      If ($env:APPVEYOR_REPO_BRANCH -eq 'janusify-is') {
+          janus.exe deploy -to="fake-builds-etcdevteam-com/emerald-wallet/$(janus version -format='v%M.%m.x')/" -files="./dist/*.exe" -key="./isaac-test-gcp-servie-key.enc.json"
+      }
