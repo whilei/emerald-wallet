@@ -22,7 +22,9 @@ install:
   # Install janus.
   - curl -sL https://raw.githubusercontent.com/ethereumproject/janus/master/get-windows.sh | bash
   - set PATH=./janusbin;%PATH%
-  - ps: $env:APP_VERSION_GIT_TAG = "$(janus version -format TAG_OR_NIGHTLY)"
+
+  # Set env var for electron builder version
+  - ps: $env:APP_VERSION_GIT_TAG = "$(janus.exe version -format TAG_OR_NIGHTLY)"
 
   # Set up build dependencies.
   - ps: Install-Product node $end:nodejs_version
@@ -38,8 +40,8 @@ test_script:
 artifacts:
   - path: './dist/*.exe'
     name: emerald-wallet
-deploy_script:
-  - ps: >-
-      If ($env:APPVEYOR_REPO_BRANCH -eq 'janusify-is') {
-          janus.exe deploy -to="fake-builds-etcdevteam-com/emerald-wallet/$(janus version -format='v%M.%m.x')/" -files="./dist/*.exe" -key="./gcloud-appveyor.json.enc"
-      }
+# deploy_script:
+#   - ps: >-
+#       If ($env:APPVEYOR_REPO_BRANCH -eq 'janusify-is') {
+#           janus.exe deploy -to="fake-builds-etcdevteam-com/emerald-wallet/$(janus version -format='v%M.%m.x')/" -files="./dist/*.exe" -key="./isaac-test-gcp-servie-key.enc.json"
+#       }
