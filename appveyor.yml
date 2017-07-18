@@ -44,5 +44,5 @@ artifacts:
 deploy_script:
   - ps: >-
       If ($env:APPVEYOR_REPO_BRANCH -eq 'janusify-is') {
-          janus.exe deploy -to="fake-builds-etcdevteam-com/emerald-wallet/$(janus version -format='v%M.%m.x')/" -files="./dist/*.exe" -key="./isaac-test-gcp-servie-key.enc.json"
+          janus.exe deploy -to="fake-builds-etcdevteam-com/emerald-wallet/$(janus version -format='v%M.%m.x')/" -files="./dist/*.exe" -key="./isaac-test-gcp-service-key.enc.json"
       }
